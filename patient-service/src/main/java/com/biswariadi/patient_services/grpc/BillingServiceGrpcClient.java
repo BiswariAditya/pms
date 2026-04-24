@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class BillingServiceGrpcClient {
     private final BillingServiceGrpc.BillingServiceBlockingStub billingServiceStub;
 
-    public BillingServiceGrpcClient(@Value("${billing.service.address:localhost}") String serverAddress,
+    public BillingServiceGrpcClient(@Value("${billing.service.address:billing-service}") String serverAddress,
                                     @Value("${billing.service.port:9001}") int serverPort) {
         log.info("Initializing BillingServiceGrpcClient with server address: {} and port: {}", serverAddress, serverPort);
         ManagedChannel channel = ManagedChannelBuilder.forAddress(serverAddress, serverPort).usePlaintext().build();

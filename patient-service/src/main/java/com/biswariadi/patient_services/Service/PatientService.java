@@ -3,6 +3,7 @@ package com.biswariadi.patient_services.Service;
 import com.biswariadi.patient_services.DTO.PatientRequestDTO;
 import com.biswariadi.patient_services.DTO.PatientResponseDTO;
 import com.biswariadi.patient_services.grpc.BillingServiceGrpcClient;
+import com.biswariadi.patient_services.kafka.kafkaProducer;
 import com.biswariadi.patient_services.mapper.PatientMapper;
 import com.biswariadi.patient_services.model.Patient;
 import com.biswariadi.patient_services.repository.PatientRepository;
@@ -20,6 +21,9 @@ public class PatientService {
 
     @Autowired
     BillingServiceGrpcClient billingServiceGrpcClient;
+
+    @Autowired
+    kafkaProducer kafkaProducer;
 
     public List<PatientResponseDTO> getPatients() {
         List<Patient> patients = patientRepository.findAll();
@@ -39,6 +43,7 @@ public class PatientService {
                 savedPatient.getName(),
                 savedPatient.getEmail()
         );
+        kafkaProducer.sendEvent(savedPatient);
         return PatientMapper.toDTO(savedPatient);
     }
 

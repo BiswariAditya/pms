@@ -12,7 +12,9 @@ import java.util.Objects;
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        String errorMessage = ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage();
+        String errorMessage = ex.getBindingResult().getAllErrors().isEmpty()
+                ? "Validation failed"
+                : ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return ResponseEntity.badRequest().body(Map.of("error", Objects.requireNonNull(errorMessage)));
     }
 }

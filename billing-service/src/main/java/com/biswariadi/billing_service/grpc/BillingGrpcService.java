@@ -7,10 +7,14 @@ import net.devh.boot.grpc.server.service.GrpcService;
 
 @Slf4j
 @GrpcService
-public abstract class BillingGrpcService extends BillingServiceGrpc.BillingServiceImplBase {
-    public void createBillingAccount(billing.BillingRequest billingrequest, StreamObserver<BillingResponse> responseObserver) {
-        log.info("createBillingAccount {}", billingrequest.toString());
-        BillingResponse response= BillingResponse.newBuilder().setAccountId("12345").setStatus("SUCCESS").build();
+public class BillingGrpcService extends BillingServiceGrpc.BillingServiceImplBase {
+    @Override
+    public void getBillingInfo(billing.BillingRequest billingrequest, StreamObserver<BillingResponse> responseObserver) {
+        log.info("getBillingInfo {}", billingrequest.toString());
+        BillingResponse response = BillingResponse.newBuilder()
+                .setAccountId("12345")
+                .setStatus("SUCCESS")
+                .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

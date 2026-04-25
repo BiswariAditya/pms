@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Billing Service API
+  version: 0.0.1-SNAPSHOT
+  description: |
+    Billing Service REST facade (for Swagger) + gRPC server.
+
+    - gRPC server runs on port 9001 (BillingService/GetBillingInfo)
+    - REST endpoint below is primarily for documentation/testing
+servers:
+  - url: http://localhost:4002
+paths:
+  /billing/info:
+    get:
+      summary: Get billing info for a patient
+      parameters:
+        - in: query
+          name: patientId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: email
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Billing info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BillingInfoResponse"
+components:
+  schemas:
+    BillingInfoResponse:
+      type: object
+      required: [accountId, status]
+      properties:
+        accountId:
+          type: string
+        status:
+          type: string
+

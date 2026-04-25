@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre AS runner
+FROM eclipse-temurin:17-jre AS runner
 WORKDIR /app
 
 # Copy built JAR from builder stage
